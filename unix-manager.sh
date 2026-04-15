@@ -80,8 +80,8 @@ build_menu() {
     CMD_MAP=("")   # index 0 unused; tags start at 1
 
     local index=1
-    add_sections_from_file "$CONFIG" ""
     [[ -f "$CONFIG_LOCAL" ]] && add_sections_from_file "$CONFIG_LOCAL" "  [local]"
+    add_sections_from_file "$CONFIG" ""
 }
 
 # ── Run a command ──────────────────────────────────────────────────────────────
