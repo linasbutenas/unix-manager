@@ -10,41 +10,26 @@ if ! command -v dialog &>/dev/null; then
 fi
 
 # ── Config resolution ──────────────────────────────────────────────────────────
-CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/unix-manager/config.conf"
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/unix-manager"
+CONFIG="$CONFIG_DIR/config.conf"
+CONFIG_LOCAL="$CONFIG_DIR/config_local.conf"
 
 if [[ ! -f "$CONFIG" ]]; then
     echo "Config not found: $CONFIG"
-    echo ""
-    read -rp "Create example config there? [y/N] " ans
-    if [[ "${ans,,}" == "y" ]]; then
-        cat > "$CONFIG" << 'CONF'
-[Docker]
-ps    = docker ps -a
-
-[Git]
-st    = git status
-log   = git log --oneline -10
-push  = git push origin HEAD
-
-[System]
-df    = df -h
-mem   = free -h
-top   = htop
-CONF
-        echo "Created: $CONFIG"
-        echo "Edit it, then rerun the launcher."
-    fi
-    exit 0
+    echo "Run install.sh first."
+    exit 1
 fi
 
 # ── INI parser helpers ─────────────────────────────────────────────────────────
 
 get_sections() {
-    grep -E '^\[.+\]' "$CONFIG" | sed 's/^\[\(.*\)\]$/\1/'
+    local file="$1"
+    grep -E '^\[.+\]' "$file" | sed 's/^\[\(.*\)\]$/\1/'
 }
 
 get_commands() {
     local section="$1"
+    local file="$2"
     local in_section=0
     while IFS= read -r line; do
         if [[ "$line" =~ ^\[([^\]]+)\]$ ]]; then
@@ -62,7 +47,7 @@ get_commands() {
             cmd="${cmd#"${cmd%%[! ]*}"}";   cmd="${cmd%"${cmd##*[! ]}"}"
             echo "${name}|${cmd}"
         fi
-    done < "$CONFIG"
+    done < "$file"
 }
 
 # ── Build flat tree menu ───────────────────────────────────────────────────────
@@ -72,13 +57,11 @@ get_commands() {
 declare -a MENU_ITEMS
 declare -a CMD_MAP
 
-build_menu() {
-    MENU_ITEMS=()
-    CMD_MAP=("")   # index 0 unused; tags start at 1
-
-    local index=1
+add_sections_from_file() {
+    local file="$1"
+    local label="$2"
     while IFS= read -r section; do
-        MENU_ITEMS+=("$index" "  ▶  ${section}")
+        MENU_ITEMS+=("$index" "  ▶  ${section}${label}")
         CMD_MAP+=("__GROUP__")
         ((index++))
 
@@ -88,8 +71,17 @@ build_menu() {
             MENU_ITEMS+=("$index" "       ${name}  →  ${cmd}")
             CMD_MAP+=("$cmd")
             ((index++))
-        done < <(get_commands "$section")
-    done < <(get_sections)
+        done < <(get_commands "$section" "$file")
+    done < <(get_sections "$file")
+}
+
+build_menu() {
+    MENU_ITEMS=()
+    CMD_MAP=("")   # index 0 unused; tags start at 1
+
+    local index=1
+    add_sections_from_file "$CONFIG" ""
+    [[ -f "$CONFIG_LOCAL" ]] && add_sections_from_file "$CONFIG_LOCAL" "  [local]"
 }
 
 # ── Run a command ──────────────────────────────────────────────────────────────
@@ -121,7 +113,7 @@ while true; do
     choice=$(dialog --stdout \
         --title "Unix Manager" \
         --cancel-label "Quit" \
-        --menu "$(basename "$CONFIG")" \
+        --menu "config.conf + config_local.conf" \
         40 120 30 \
         "${MENU_ITEMS[@]}") || { clear; exit 0; }
 

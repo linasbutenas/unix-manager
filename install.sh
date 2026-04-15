@@ -13,13 +13,23 @@ cp unix-manager.sh "$BIN_DIR/unix-manager"
 chmod +x "$BIN_DIR/unix-manager"
 echo "  Script  → $BIN_DIR/unix-manager"
 
-# ── Install config (skip if already exists) ────────────────────────────────────
+# ── Install config (always overwrite global, never touch local) ───────────────
 mkdir -p "$CONFIG_DIR"
-if [[ -f "$CONFIG_FILE" ]]; then
-    echo "  Config  → $CONFIG_FILE (already exists, skipping)"
+cp unix-manager.conf "$CONFIG_FILE"
+echo "  Config  → $CONFIG_FILE (updated)"
+
+LOCAL_FILE="$CONFIG_DIR/config_local.conf"
+if [[ ! -f "$LOCAL_FILE" ]]; then
+    cat > "$LOCAL_FILE" << 'EOF'
+# Local commands — this file is never overwritten by install.sh
+# Add your personal groups and commands here.
+#
+# [My Group]
+# hello = echo "Hello, world!"
+EOF
+    echo "  Local   → $LOCAL_FILE (created)"
 else
-    cp unix-manager.conf "$CONFIG_FILE"
-    echo "  Config  → $CONFIG_FILE"
+    echo "  Local   → $LOCAL_FILE (already exists, skipping)"
 fi
 
 # ── Install scripts ────────────────────────────────────────────────────────────
