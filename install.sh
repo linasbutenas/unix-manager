@@ -39,7 +39,7 @@ if ! grep -qF "$MARKER" "$BASHRC" 2>/dev/null; then
         echo "export PATH=\"\$HOME/.local/bin:\$PATH\""
         echo "alias um='unix-manager'"
     } >> "$BASHRC"
-    echo "  Shell   → added PATH + alias 'lbl' to $BASHRC"
+    echo "  Shell   → added PATH + alias 'um' to $BASHRC"
 else
     echo "  Shell   → $BASHRC already configured (skipping)"
 fi

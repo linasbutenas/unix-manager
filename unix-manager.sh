@@ -122,7 +122,7 @@ while true; do
         --title "Unix Manager" \
         --cancel-label "Quit" \
         --menu "$(basename "$CONFIG")" \
-        20 72 15 \
+        40 120 30 \
         "${MENU_ITEMS[@]}") || { clear; exit 0; }
 
     cmd="${CMD_MAP[$choice]}"
