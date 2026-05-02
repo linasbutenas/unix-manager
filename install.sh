@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+REPO_DIR="$HOME/.local/share/unix-manager"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# ── Ensure we always run from the canonical repo location ─────────────────────
+if [[ "$SCRIPT_DIR" != "$REPO_DIR" ]]; then
+    if [[ -d "$REPO_DIR/.git" ]]; then
+        echo "Updating repo at $REPO_DIR..."
+        git -C "$REPO_DIR" pull
+    else
+        REMOTE=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "")
+        if [[ -n "$REMOTE" ]]; then
+            echo "Cloning repo to $REPO_DIR..."
+            git clone "$REMOTE" "$REPO_DIR"
+        else
+            echo "Copying repo to $REPO_DIR..."
+            mkdir -p "$REPO_DIR"
+            cp -r "$SCRIPT_DIR/." "$REPO_DIR/"
+        fi
+    fi
+    exec bash "$REPO_DIR/install.sh"
+fi
+
 BIN_DIR="$HOME/.local/bin"
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/unix-manager"
 CONFIG_FILE="$CONFIG_DIR/config.conf"
@@ -9,13 +31,13 @@ echo "Installing unix-manager..."
 
 # ── Install script ─────────────────────────────────────────────────────────────
 mkdir -p "$BIN_DIR"
-cp unix-manager.sh "$BIN_DIR/unix-manager"
+cp "$REPO_DIR/unix-manager.sh" "$BIN_DIR/unix-manager"
 chmod +x "$BIN_DIR/unix-manager"
 echo "  Script  → $BIN_DIR/unix-manager"
 
 # ── Install config (always overwrite global, never touch local) ───────────────
 mkdir -p "$CONFIG_DIR"
-cp unix-manager.conf "$CONFIG_FILE"
+cp "$REPO_DIR/unix-manager.conf" "$CONFIG_FILE"
 echo "  Config  → $CONFIG_FILE (updated)"
 
 LOCAL_FILE="$CONFIG_DIR/config_local.conf"
@@ -34,7 +56,7 @@ fi
 
 # ── Install scripts ────────────────────────────────────────────────────────────
 mkdir -p "$CONFIG_DIR/scripts"
-cp scripts/* "$CONFIG_DIR/scripts/"
+cp "$REPO_DIR/scripts/"* "$CONFIG_DIR/scripts/"
 chmod +x "$CONFIG_DIR/scripts/"*
 echo "  Scripts → $CONFIG_DIR/scripts/"
 
