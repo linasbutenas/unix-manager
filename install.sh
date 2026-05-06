@@ -23,6 +23,7 @@ if [[ ${#MISSING[@]} -gt 0 ]]; then
     exit 1
 fi
 
+REPO_URL="https://bitbucket.org/linasbprojects/unix-manager"
 REPO_DIR="$HOME/.local/share/unix-manager"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -33,14 +34,8 @@ if [[ "$SCRIPT_DIR" != "$REPO_DIR" ]]; then
         git -C "$REPO_DIR" pull
     else
         REMOTE=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "")
-        if [[ -n "$REMOTE" ]]; then
-            echo "Cloning repo to $REPO_DIR..."
-            git clone "$REMOTE" "$REPO_DIR"
-        else
-            echo "Copying repo to $REPO_DIR..."
-            mkdir -p "$REPO_DIR"
-            cp -r "$SCRIPT_DIR/." "$REPO_DIR/"
-        fi
+        echo "Cloning repo to $REPO_DIR..."
+        git clone "${REMOTE:-$REPO_URL}" "$REPO_DIR"
     fi
     exec bash "$REPO_DIR/install.sh"
 fi
