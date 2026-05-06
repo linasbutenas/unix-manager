@@ -25,7 +25,13 @@ fi
 
 REPO_URL="https://bitbucket.org/linasbprojects/unix-manager"
 REPO_DIR="$HOME/.local/share/unix-manager"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Resolve script location only when running from a real file (not curl pipe)
+if [[ -f "${BASH_SOURCE[0]:-}" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+    SCRIPT_DIR=""
+fi
 
 # ── Ensure we always run from the canonical repo location ─────────────────────
 if [[ "$SCRIPT_DIR" != "$REPO_DIR" ]]; then
@@ -34,7 +40,8 @@ if [[ "$SCRIPT_DIR" != "$REPO_DIR" ]]; then
         git -C "$REPO_DIR" pull
     else
         [[ -d "$REPO_DIR" ]] && rm -rf "$REPO_DIR"
-        REMOTE=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "")
+        REMOTE=""
+        [[ -n "$SCRIPT_DIR" ]] && REMOTE=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "")
         echo "Cloning repo to $REPO_DIR..."
         git clone "${REMOTE:-$REPO_URL}" "$REPO_DIR"
     fi
