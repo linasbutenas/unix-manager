@@ -15,7 +15,7 @@ A minimal bash TUI for organizing and running shell commands from a config file.
 ## Installation
 
 ```bash
-bash <(curl -fsSL https://bitbucket.org/linasbprojects/unix-manager/raw/master/install.sh)
+curl -fsSL https://bitbucket.org/linasbprojects/unix-manager/raw/master/install.sh | bash
 ```
 
 `install.sh` will:
