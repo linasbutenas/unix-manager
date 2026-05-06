@@ -33,6 +33,7 @@ if [[ "$SCRIPT_DIR" != "$REPO_DIR" ]]; then
         echo "Updating repo at $REPO_DIR..."
         git -C "$REPO_DIR" pull
     else
+        [[ -d "$REPO_DIR" ]] && rm -rf "$REPO_DIR"
         REMOTE=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "")
         echo "Cloning repo to $REPO_DIR..."
         git clone "${REMOTE:-$REPO_URL}" "$REPO_DIR"
