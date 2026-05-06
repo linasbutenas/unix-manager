@@ -14,12 +14,8 @@ A minimal bash TUI for organizing and running shell commands from a config file.
 
 ## Installation
 
-Clone the repo anywhere and run:
-
 ```bash
-git clone git@bitbucket.org:linasbprojects/unix-manager.git
-cd unix-manager
-bash install.sh
+bash <(curl -fsSL https://bitbucket.org/linasbprojects/unix-manager/raw/master/install.sh)
 ```
 
 `install.sh` will:
