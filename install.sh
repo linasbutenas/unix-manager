@@ -26,9 +26,12 @@ fi
 REPO_URL="https://bitbucket.org/linasbprojects/unix-manager"
 REPO_DIR="$HOME/.local/share/unix-manager"
 
-# Resolve script location only when running from a real file (not curl pipe)
-if [[ -f "${BASH_SOURCE[0]:-}" ]]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve script location — BASH_SOURCE[0] is unbound when piped from curl
+set +u
+_src="${BASH_SOURCE[0]-}"
+set -u
+if [[ -f "$_src" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "$_src")" && pwd)"
 else
     SCRIPT_DIR=""
 fi
