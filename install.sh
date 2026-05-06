@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ── Requirements check ─────────────────────────────────────────────────────────
+MISSING=()
+
+if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+    echo "Error: bash 4+ is required (running ${BASH_VERSION})."
+    exit 1
+fi
+
+command -v git  &>/dev/null || MISSING+=("git")
+command -v curl &>/dev/null || MISSING+=("curl")
+
+if ! command -v dialog &>/dev/null; then
+    echo "'dialog' is not installed. Installing..."
+    sudo apt-get install -y dialog || { echo "Error: failed to install dialog."; exit 1; }
+fi
+
+if [[ ${#MISSING[@]} -gt 0 ]]; then
+    echo "Error: missing required tools: ${MISSING[*]}"
+    echo "Install with: sudo apt install ${MISSING[*]}"
+    exit 1
+fi
+
 REPO_DIR="$HOME/.local/share/unix-manager"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
