@@ -1,4 +1,4 @@
-# unix-manager
+# unix-manager v1.0.0
 
 A minimal bash TUI for organizing and running shell commands from a config file.
 

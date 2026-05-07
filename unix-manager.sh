@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+VERSION="1.0.0"
+
 # ── Dependency check ───────────────────────────────────────────────────────────
 if ! command -v dialog &>/dev/null; then
     echo "Error: 'dialog' is required but not installed."
@@ -111,7 +113,7 @@ while true; do
     fi
 
     choice=$(dialog --stdout \
-        --title "Unix Manager" \
+        --title "Unix Manager v${VERSION}" \
         --cancel-label "Quit" \
         --menu "config.conf + config_local.conf" \
         40 120 30 \
