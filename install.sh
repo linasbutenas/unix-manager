@@ -55,6 +55,9 @@ BIN_DIR="$HOME/.local/bin"
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/unix-manager"
 CONFIG_FILE="$CONFIG_DIR/config.conf"
 
+# ── Uninstall previous version ────────────────────────────────────────────────
+bash "$REPO_DIR/uninstall.sh"
+
 echo "Installing unix-manager..."
 
 # ── Install script ─────────────────────────────────────────────────────────────
