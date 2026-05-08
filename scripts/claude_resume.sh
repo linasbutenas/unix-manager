@@ -46,7 +46,7 @@ choice=$(dialog --stdout \
     --title "Resume Claude Session" \
     --cancel-label "Cancel" \
     --menu "Select a session to resume:" \
-    30 100 20 \
+    30 110 20 \
     "${MENU_ITEMS[@]}") || exit 0
 
 clear
