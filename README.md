@@ -78,7 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
-| System | `df`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `df`, `mem`, `top`, `ports` |
 
 ### Git — `ship`
 
@@ -103,6 +103,16 @@ Both show `multipass list` first, then prompt for the VM name before connecting 
 
 Lists all VMs and asks for confirmation before stopping all of them.
 
+### System — `adduser`
+
+Creates a local Unix user on the host. Prompts for:
+1. Username (validated as a legal Unix login name; aborts if it already exists)
+2. Supplementary groups (comma-separated, optional)
+3. Whether to grant sudo
+4. A password (set interactively)
+
+Requires `sudo`. Runs `scripts/create_user.sh`.
+
 ## Project structure
 
 ```
@@ -112,4 +122,5 @@ config_local.conf             # local config template (deployed once, never over
 install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter inside a Multipass VM
+  create_user.sh              # creates a local Unix user (System → adduser)
 ```
