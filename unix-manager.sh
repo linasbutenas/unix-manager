@@ -112,11 +112,25 @@ while true; do
         exit 1
     fi
 
+    # ── Size the menu to the item count, capped to the terminal ──────────────────
+    term_lines=$(tput lines 2>/dev/null || echo 40)
+    term_cols=$(tput cols 2>/dev/null || echo 120)
+    num_items=$(( ${#MENU_ITEMS[@]} / 2 ))
+
+    menu_h=$num_items                       # visible list rows
+    box_h=$(( num_items + 7 ))              # + borders, title, prompt
+    if (( box_h > term_lines - 1 )); then   # cap to terminal height
+        box_h=$(( term_lines - 1 ))
+        menu_h=$(( box_h - 7 ))
+    fi
+    box_w=120
+    (( box_w > term_cols - 2 )) && box_w=$(( term_cols - 2 ))
+
     choice=$(dialog --stdout \
         --title "Unix Manager v${VERSION}" \
         --cancel-label "Quit" \
         --menu "config.conf + config_local.conf" \
-        40 120 30 \
+        "$box_h" "$box_w" "$menu_h" \
         "${MENU_ITEMS[@]}") || { clear; exit 0; }
 
     cmd="${CMD_MAP[$choice]}"
