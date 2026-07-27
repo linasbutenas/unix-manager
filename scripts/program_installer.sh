@@ -63,7 +63,7 @@ installed_count=0
 for name in "${NAMES[@]}"; do
     if command -v "$name" &>/dev/null; then
         installed_list+="  * ${name}"$'\n'
-        ((installed_count++))
+        installed_count=$(( installed_count + 1 ))
     else
         AVAIL_NAMES+=("$name")
     fi
