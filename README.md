@@ -79,7 +79,7 @@ log   = git log --oneline -15
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `df`, `mem`, `top`, `ports` |
-| Unix Program Installer | `mc`, `glow` |
+| Unix Program Installer | `open` (checklist: `mc`, `glow`) |
 
 ### Git — `ship`
 
@@ -116,14 +116,24 @@ Requires `sudo`. Runs `scripts/create_user.sh`.
 
 ### Unix Program Installer
 
-Installs common tools on a fresh VM. Each program is its own menu item:
+Installs common tools on a fresh VM. Selecting **open** launches a checklist
+window (`scripts/program_installer.sh`) listing every program in the group.
+Already-installed programs are detected (via `command -v`) and shown pre-marked
+`[X]`. Tick the ones you want, press Enter, and the newly-ticked programs are
+installed in one go; already-installed programs are skipped.
+
+Programs are defined as `name = install command` entries under the
+`[Unix Program Installer]` group in `config.conf` — add a tool by appending one
+line. The detection assumes the program's command name matches its config name.
+
+Bundled programs:
 
 - `mc` — Midnight Commander, from the standard Ubuntu repos.
 - `glow` — Charm's markdown renderer. Not in the default Ubuntu repos, so
   `scripts/install_glow.sh` adds the Charm apt repository (GPG key + source
   list) before installing.
 
-Both require `sudo`. Add more tools by appending entries to this group.
+Both require `sudo`.
 
 ## Project structure
 
@@ -136,4 +146,5 @@ scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter inside a Multipass VM
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
+  program_installer.sh        # checklist installer (Unix Program Installer → open)
 ```

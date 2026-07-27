@@ -67,6 +67,16 @@ add_sections_from_file() {
         CMD_MAP+=("__GROUP__")
         ((index++))
 
+        # The program installer group opens a checklist window instead of
+        # listing each program as a separate menu command.
+        if [[ "$section" == "Unix Program Installer" ]]; then
+            local installer="$CONFIG_DIR/scripts/program_installer.sh"
+            MENU_ITEMS+=("$index" "       open  →  select & install programs")
+            CMD_MAP+=("bash \"$installer\"")
+            ((index++))
+            continue
+        fi
+
         while IFS= read -r entry; do
             local name="${entry%%|*}"
             local cmd="${entry#*|}"
