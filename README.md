@@ -79,6 +79,7 @@ log   = git log --oneline -15
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `df`, `mem`, `top`, `ports` |
+| Unix Program Installer | `mc`, `glow` |
 
 ### Git — `ship`
 
@@ -113,6 +114,17 @@ Creates a local Unix user on the host. Prompts for:
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
 
+### Unix Program Installer
+
+Installs common tools on a fresh VM. Each program is its own menu item:
+
+- `mc` — Midnight Commander, from the standard Ubuntu repos.
+- `glow` — Charm's markdown renderer. Not in the default Ubuntu repos, so
+  `scripts/install_glow.sh` adds the Charm apt repository (GPG key + source
+  list) before installing.
+
+Both require `sudo`. Add more tools by appending entries to this group.
+
 ## Project structure
 
 ```
@@ -123,4 +135,5 @@ install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter inside a Multipass VM
   create_user.sh              # creates a local Unix user (System → adduser)
+  install_glow.sh             # installs glow via the Charm apt repo
 ```
