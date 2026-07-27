@@ -41,7 +41,7 @@ get_commands() {
 }
 
 # ── Build program list ───────────────────────────────────────────────────────────
-declare -a NAMES CMDS
+NAMES=(); CMDS=()
 while IFS= read -r entry; do
     [[ -z "$entry" ]] && continue
     NAMES+=("${entry%%|*}")
@@ -57,7 +57,7 @@ fi
 # Installed programs are shown as a locked list marked with * — they cannot be
 # toggled off, because a dialog checklist row has no read-only state, so we simply
 # do not present installed programs as checkboxes at all.
-declare -a AVAIL_NAMES
+AVAIL_NAMES=()
 installed_list=""
 installed_count=0
 for name in "${NAMES[@]}"; do
@@ -87,7 +87,7 @@ if [[ ${#AVAIL_NAMES[@]} -eq 0 ]]; then
 fi
 
 # ── Build checklist of installable programs (all unchecked) ──────────────────────
-declare -a ITEMS
+ITEMS=()
 for name in "${AVAIL_NAMES[@]}"; do
     ITEMS+=("$name" "not installed" "off")
 done
@@ -121,7 +121,7 @@ if [[ -z "$selected" ]]; then
 fi
 
 # ── Install ticked programs (the checklist only offered not-installed ones) ──────
-declare -a TO_INSTALL
+TO_INSTALL=()
 for name in $selected; do
     name="${name%\"}"; name="${name#\"}"          # strip quotes if present
     TO_INSTALL+=("$name")
