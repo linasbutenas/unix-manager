@@ -53,36 +53,63 @@ if [[ ${#NAMES[@]} -eq 0 ]]; then
     exit 1
 fi
 
-# ── Detect installed status, build checklist items ───────────────────────────────
-declare -a ITEMS
-declare -A INSTALLED
+# ── Split into installed (locked) and installable ────────────────────────────────
+# Installed programs are shown as a locked list marked with * — they cannot be
+# toggled off, because a dialog checklist row has no read-only state, so we simply
+# do not present installed programs as checkboxes at all.
+declare -a AVAIL_NAMES
+installed_list=""
+installed_count=0
 for name in "${NAMES[@]}"; do
     if command -v "$name" &>/dev/null; then
-        INSTALLED["$name"]=1
-        ITEMS+=("$name" "installed" "on")
+        installed_list+="  * ${name}"$'\n'
+        ((installed_count++))
     else
-        INSTALLED["$name"]=0
-        ITEMS+=("$name" "not installed" "off")
+        AVAIL_NAMES+=("$name")
     fi
 done
 
-# ── Size the checklist to the item count, capped to the terminal ─────────────────
+# ── Terminal size ────────────────────────────────────────────────────────────────
 term_lines=$(tput lines 2>/dev/null || echo 24)
 term_cols=$(tput cols 2>/dev/null || echo 80)
-num=${#NAMES[@]}
-list_h=$num
-box_h=$(( num + 8 ))
-if (( box_h > term_lines - 1 )); then
-    box_h=$(( term_lines - 1 ))
-    list_h=$(( box_h - 8 ))
-fi
 box_w=70
 (( box_w > term_cols - 2 )) && box_w=$(( term_cols - 2 ))
+
+# ── Everything already installed ─────────────────────────────────────────────────
+if [[ ${#AVAIL_NAMES[@]} -eq 0 ]]; then
+    msg_h=$(( installed_count + 6 ))
+    (( msg_h > term_lines - 1 )) && msg_h=$(( term_lines - 1 ))
+    dialog --title "Unix Program Installer" \
+        --msgbox "All programs are already installed:"$'\n\n'"${installed_list}" \
+        "$msg_h" "$box_w"
+    clear
+    exit 0
+fi
+
+# ── Build checklist of installable programs (all unchecked) ──────────────────────
+declare -a ITEMS
+for name in "${AVAIL_NAMES[@]}"; do
+    ITEMS+=("$name" "not installed" "off")
+done
+
+prompt="Space toggles, Enter confirms."
+if (( installed_count > 0 )); then
+    prompt+=$'\n\n'"Already installed (locked):"$'\n'"${installed_list}"
+fi
+
+# ── Size the checklist to the content, capped to the terminal ────────────────────
+list_h=${#AVAIL_NAMES[@]}
+box_h=$(( list_h + installed_count + 9 ))
+if (( box_h > term_lines - 1 )); then
+    box_h=$(( term_lines - 1 ))
+    list_h=$(( box_h - installed_count - 9 ))
+    (( list_h < 1 )) && list_h=1
+fi
 
 # ── Show the checklist ───────────────────────────────────────────────────────────
 selected=$(dialog --stdout \
     --title "Unix Program Installer" \
-    --checklist "Space toggles, Enter confirms.  [X] = already installed." \
+    --checklist "$prompt" \
     "$box_h" "$box_w" "$list_h" \
     "${ITEMS[@]}") || { clear; echo "Cancelled — no changes."; exit 0; }
 
@@ -93,18 +120,12 @@ if [[ -z "$selected" ]]; then
     exit 0
 fi
 
-# ── Install ticked programs that aren't already installed ────────────────────────
+# ── Install ticked programs (the checklist only offered not-installed ones) ──────
 declare -a TO_INSTALL
 for name in $selected; do
     name="${name%\"}"; name="${name#\"}"          # strip quotes if present
-    [[ "${INSTALLED[$name]:-0}" == "1" ]] && continue
     TO_INSTALL+=("$name")
 done
-
-if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
-    echo "Selected programs are already installed. Nothing to do."
-    exit 0
-fi
 
 fail=0
 for name in "${TO_INSTALL[@]}"; do

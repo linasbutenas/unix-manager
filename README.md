@@ -117,10 +117,11 @@ Requires `sudo`. Runs `scripts/create_user.sh`.
 ### Unix Program Installer
 
 Installs common tools on a fresh VM. Selecting **open** launches a checklist
-window (`scripts/program_installer.sh`) listing every program in the group.
-Already-installed programs are detected (via `command -v`) and shown pre-marked
-`[X]`. Tick the ones you want, press Enter, and the newly-ticked programs are
-installed in one go; already-installed programs are skipped.
+window (`scripts/program_installer.sh`). Already-installed programs are detected
+(via `command -v`) and shown as a locked list marked with `*` at the top of the
+window — they cannot be toggled. Only not-installed programs appear as
+checkboxes. Tick the ones you want, press Enter, and they are installed in one
+go. If every program is already installed, the window just reports that.
 
 Programs are defined as `name = install command` entries under the
 `[Unix Program Installer]` group in `config.conf` — add a tool by appending one
