@@ -79,7 +79,7 @@ log   = git log --oneline -15
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `df`, `mem`, `top`, `ports` |
-| Unix Program Installer | `open` (checklist: `mc`, `glow`) |
+| Unix Program Installer | `open` (checklist: `mc`, `htop`, `glow`) |
 
 ### Git — `ship`
 
@@ -130,6 +130,7 @@ line. The detection assumes the program's command name matches its config name.
 Bundled programs:
 
 - `mc` — Midnight Commander, from the standard Ubuntu repos.
+- `htop` — interactive process viewer, from the standard Ubuntu repos.
 - `glow` — Charm's markdown renderer. Not in the default Ubuntu repos, so
   `scripts/install_glow.sh` adds the Charm apt repository (GPG key + source
   list) before installing.
