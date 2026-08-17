@@ -110,7 +110,10 @@ Creates a local Unix user on the host. Prompts for:
 1. Username (validated as a legal Unix login name; aborts if it already exists)
 2. Supplementary groups (comma-separated, optional)
 3. Whether to grant sudo
-4. A password (set interactively)
+4. Whether to copy your `~/.ssh/authorized_keys` to the new user (if yes, copies
+   the file into the new user's `~/.ssh/`, sets ownership to the new user, and
+   applies `700`/`600` permissions so SSH accepts it)
+5. A password (set interactively)
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
 

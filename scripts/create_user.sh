@@ -47,6 +47,24 @@ if [[ "${grant_sudo,,}" == "y" ]]; then
     echo "Granted sudo to '$user'."
 fi
 
+# ── Copy SSH authorized_keys (optional) ──────────────────────────────────────────
+read -rp "Copy your ~/.ssh/authorized_keys to '$user'? [y/N] " copy_keys
+if [[ "${copy_keys,,}" == "y" ]]; then
+    src="$HOME/.ssh/authorized_keys"
+    if [[ -f "$src" ]]; then
+        new_home=$(getent passwd "$user" | cut -d: -f6)
+        new_home="${new_home:-/home/$user}"
+        sudo mkdir -p "$new_home/.ssh"
+        sudo cp "$src" "$new_home/.ssh/authorized_keys"
+        sudo chown -R "$user":"$user" "$new_home/.ssh"
+        sudo chmod 700 "$new_home/.ssh"
+        sudo chmod 600 "$new_home/.ssh/authorized_keys"
+        echo "Copied authorized_keys to $new_home/.ssh/ and set ownership."
+    else
+        echo "No authorized_keys found at $src — skipping."
+    fi
+fi
+
 # ── Password ────────────────────────────────────────────────────────────────────
 echo ""
 echo "Set a password for '$user':"
