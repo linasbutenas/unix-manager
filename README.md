@@ -154,3 +154,7 @@ scripts/
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the version history.
