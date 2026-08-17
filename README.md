@@ -78,7 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
-| System | `upgrade`, `adduser`, `df`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `listusers`, `df`, `mem`, `top`, `ports` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`) |
 
 ### Git — `ship`
