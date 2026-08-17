@@ -9,6 +9,10 @@ All notable changes to this project are documented here. The format is based on
 ### Added
 - **System → listusers**: list human/login users (UID ≥ 1000) with their UID
   and home directory.
+- **System → ufw**: checklist window to manage a fixed set of firewall rules
+  (SSH rate-limit, HTTP, HTTPS, default deny incoming, firewall enable). Current
+  state is detected read-only; changes are confirmed, applied rules-first, and
+  guarded by a lock-out warning when enabling without an SSH rule.
 
 ## [1.1.1] — 2026-08-17
 

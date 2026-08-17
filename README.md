@@ -78,7 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
-| System | `upgrade`, `adduser`, `listusers`, `df`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`) |
 
 ### Git — `ship`
@@ -117,6 +117,24 @@ Creates a local Unix user on the host. Prompts for:
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
 
+### System — `ufw`
+
+Opens a checklist window (`scripts/ufw_manager.sh`) for managing a fixed set of
+firewall rules. Rules currently in effect are pre-ticked; tick to create, untick
+to delete. The managed rules are:
+
+- SSH rate-limited (`ufw limit 22/tcp`)
+- HTTP (`ufw allow 80/tcp`)
+- HTTPS (`ufw allow 443/tcp`)
+- Default deny incoming (`ufw default deny incoming`)
+- Firewall enabled (`ufw enable`)
+
+Current state is detected read-only (via `ufw show added`, `/etc/default/ufw`,
+and `/etc/ufw/ufw.conf`), so it works whether ufw is active or not. After you
+confirm, rule changes are applied first and the enable/disable toggle last, so
+the firewall is never enabled before its rules exist. Enabling without an SSH
+rule triggers a lock-out warning. Requires `sudo` and `ufw`.
+
 ### Unix Program Installer
 
 Installs common tools on a fresh VM. Selecting **open** launches a checklist
@@ -153,6 +171,7 @@ scripts/
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)
+  ufw_manager.sh              # checklist firewall rule manager (System → ufw)
 ```
 
 ## Changelog
