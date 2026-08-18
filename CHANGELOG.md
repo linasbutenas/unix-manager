@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.2.2] — 2026-08-18
 
 ### Changed
 - Moved the Claude Code CLI install from the **Claude** group into the **Unix
