@@ -80,7 +80,13 @@ add_sections_from_file() {
         while IFS= read -r entry; do
             local name="${entry%%|*}"
             local cmd="${entry#*|}"
-            MENU_ITEMS+=("$index" "       ${name}  →  ${cmd}")
+            # The Unix Manager group shows only the command name, not the
+            # full command after the arrow.
+            if [[ "$section" == "Unix Manager" ]]; then
+                MENU_ITEMS+=("$index" "       ${name}")
+            else
+                MENU_ITEMS+=("$index" "       ${name}  →  ${cmd}")
+            fi
             CMD_MAP+=("$cmd")
             ((index++))
         done < <(get_commands "$section" "$file")

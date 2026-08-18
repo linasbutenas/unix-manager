@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- The **Unix Manager** group now shows only the command name in the menu
+  (e.g. `update`), without the full command after the arrow.
+
 ## [1.2.2] — 2026-08-18
 
 ### Changed
