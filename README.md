@@ -79,7 +79,7 @@ log   = git log --oneline -15
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
-| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`) |
+| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`) |
 
 ### Git — `ship`
 
@@ -158,6 +158,8 @@ Bundled programs:
   list) before installing.
 - `claude` — the Claude Code CLI, installed via
   `curl -fsSL https://claude.ai/install.sh | bash` (no `sudo` required).
+- `docker` — Docker Engine, installed via `scripts/install_docker.sh` (adds
+  Docker's apt repository).
 
 The apt-based programs require `sudo`.
 

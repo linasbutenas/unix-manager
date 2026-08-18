@@ -61,6 +61,7 @@ declare -A DESC=(
     [unzip]="Extract zip archives"
     [glow]="Markdown reader"
     [claude]="Claude Code CLI"
+    [docker]="Container engine"
 )
 
 # ── Split into installed (locked) and installable ────────────────────────────────
