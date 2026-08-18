@@ -79,7 +79,7 @@ log   = git log --oneline -15
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
-| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`) |
+| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`) |
 
 ### Git — `ship`
 
@@ -156,8 +156,10 @@ Bundled programs:
 - `glow` — Charm's markdown renderer. Not in the default Ubuntu repos, so
   `scripts/install_glow.sh` adds the Charm apt repository (GPG key + source
   list) before installing.
+- `claude` — the Claude Code CLI, installed via
+  `curl -fsSL https://claude.ai/install.sh | bash` (no `sudo` required).
 
-Both require `sudo`.
+The apt-based programs require `sudo`.
 
 ## Project structure
 
