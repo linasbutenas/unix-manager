@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- The **System** group now shows only the command name for `ufw`, `adduser`,
+  and `listusers` (matching the Unix Manager group); other System commands still
+  show their command after the arrow.
+
 ## [1.2.3] — 2026-08-18
 
 ### Changed
