@@ -7,8 +7,9 @@ All notable changes to this project are documented here. The format is based on
 ## [Unreleased]
 
 ### Changed
-- The **Claude** group now shows only command names in the menu, without the
-  full command after the arrow.
+- The menu now shows only command names for **all** groups; the full command is
+  no longer displayed after the arrow. (Supersedes the earlier per-group
+  changes.)
 
 ## [1.2.4] — 2026-08-18
 

@@ -59,18 +59,6 @@ get_commands() {
 declare -a MENU_ITEMS
 declare -a CMD_MAP
 
-# Menu entries that show only the command name (no command after the arrow).
-hide_command() {
-    local section="$1" name="$2"
-    [[ "$section" == "Unix Manager" || "$section" == "Multipass" || "$section" == "Claude" ]] && return 0
-    if [[ "$section" == "System" ]]; then
-        case "$name" in
-            ufw|adduser|listusers) return 0 ;;
-        esac
-    fi
-    return 1
-}
-
 add_sections_from_file() {
     local file="$1"
     local label="$2"
@@ -91,13 +79,8 @@ add_sections_from_file() {
 
         while IFS= read -r entry; do
             local name="${entry%%|*}"
-            local cmd="${entry#*|}"
-            if hide_command "$section" "$name"; then
-                MENU_ITEMS+=("$index" "       ${name}")
-            else
-                MENU_ITEMS+=("$index" "       ${name}  →  ${cmd}")
-            fi
-            CMD_MAP+=("$cmd")
+            MENU_ITEMS+=("$index" "       ${name}")
+            CMD_MAP+=("${entry#*|}")
             ((index++))
         done < <(get_commands "$section" "$file")
     done < <(get_sections "$file")
