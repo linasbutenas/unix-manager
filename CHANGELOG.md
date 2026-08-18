@@ -10,6 +10,8 @@ All notable changes to this project are documented here. The format is based on
 - The **System** group now shows only the command name for `ufw`, `adduser`,
   and `listusers` (matching the Unix Manager group); other System commands still
   show their command after the arrow.
+- The **Multipass** group now shows only command names in the menu, without the
+  full command after the arrow.
 
 ## [1.2.3] — 2026-08-18
 
