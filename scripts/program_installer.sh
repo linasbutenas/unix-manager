@@ -53,6 +53,16 @@ if [[ ${#NAMES[@]} -eq 0 ]]; then
     exit 1
 fi
 
+# ── Short descriptions shown beside each program (optional per program) ──────────
+declare -A DESC=(
+    [mc]="File manager"
+    [htop]="Process viewer"
+    [zip]="Create zip archives"
+    [unzip]="Extract zip archives"
+    [glow]="Markdown reader"
+    [claude]="Claude Code CLI"
+)
+
 # ── Split into installed (locked) and installable ────────────────────────────────
 # Installed programs are shown as a locked list marked with * — they cannot be
 # toggled off, because a dialog checklist row has no read-only state, so we simply
@@ -62,7 +72,12 @@ installed_list=""
 installed_count=0
 for name in "${NAMES[@]}"; do
     if command -v "$name" &>/dev/null; then
-        installed_list+="  * ${name}"$'\n'
+        d="${DESC[$name]:-}"
+        if [[ -n "$d" ]]; then
+            installed_list+="  * ${name} — ${d}"$'\n'
+        else
+            installed_list+="  * ${name}"$'\n'
+        fi
         installed_count=$(( installed_count + 1 ))
     else
         AVAIL_NAMES+=("$name")
@@ -89,7 +104,7 @@ fi
 # ── Build checklist of installable programs (all unchecked) ──────────────────────
 ITEMS=()
 for name in "${AVAIL_NAMES[@]}"; do
-    ITEMS+=("$name" "not installed" "off")
+    ITEMS+=("$name" "${DESC[$name]:-}" "off")
 done
 
 prompt="Space toggles, Enter confirms."

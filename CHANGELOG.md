@@ -10,6 +10,8 @@ All notable changes to this project are documented here. The format is based on
 - Moved the Claude Code CLI install from the **Claude** group into the **Unix
   Program Installer** checklist (as `claude`), so its installed state is
   detected alongside the other tools.
+- The Unix Program Installer now shows a short description beside each program
+  (e.g. `glow` — Markdown reader) instead of a redundant "not installed" label.
 
 ## [1.2.1] — 2026-08-18
 
