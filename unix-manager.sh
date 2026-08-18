@@ -62,7 +62,7 @@ declare -a CMD_MAP
 # Menu entries that show only the command name (no command after the arrow).
 hide_command() {
     local section="$1" name="$2"
-    [[ "$section" == "Unix Manager" || "$section" == "Multipass" ]] && return 0
+    [[ "$section" == "Unix Manager" || "$section" == "Multipass" || "$section" == "Claude" ]] && return 0
     if [[ "$section" == "System" ]]; then
         case "$name" in
             ufw|adduser|listusers) return 0 ;;
