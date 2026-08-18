@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="1.2.3"
+VERSION="1.2.4"
 
 # ── Dependency check ───────────────────────────────────────────────────────────
 if ! command -v dialog &>/dev/null; then
