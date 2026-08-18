@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Claude → install**: install the Claude Code CLI via
+  `curl -fsSL https://claude.ai/install.sh | bash`.
+
 ## [1.2.0] — 2026-08-18
 
 ### Added
