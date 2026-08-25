@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.7] — 2026-08-25
+
+### Added
+- **Monitoring** group with `install stack`, provisioning the host-side
+  Prometheus + Grafana stack via `install_monitoring_stack.sh`, and `targets`
+  for inspecting scrape health. The script derives every path from a single
+  `STACK_DIR`, so the config and the compose file can no longer be written to
+  different directories — the mismatch that made the Docker daemon create a
+  root-owned directory at the bind-mount source and left Prometheus unable to
+  start. It validates the config with `promtool` before starting and verifies
+  every scrape target is up afterwards. The Grafana admin password is injected
+  at run time rather than written into `docker-compose.yml`.
+
 ## [1.2.6] — 2026-08-18
 
 ### Changed
