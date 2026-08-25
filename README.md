@@ -78,6 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Prometheus | `install`, `status`, `upgrade`, `metrics`, `remove` |
+| Monitoring | `install stack`, `targets` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
@@ -112,6 +113,26 @@ shows `multipass list` first, then prompts for the VM name.
 - `metrics` — prints a few key metrics from `http://localhost:9100/metrics`
   inside the VM as a quick health check.
 - `remove` — asks for confirmation, then purges the package from the VM.
+
+### Monitoring — `install stack`
+
+Provisions the host-side Prometheus + Grafana stack in `~/monitoring/prometheus`
+(override with `STACK_DIR`). Prompts for the Grafana admin password, which is
+injected at run time and never written into `docker-compose.yml`.
+
+Writes `prometheus.yml` only if it does not already exist, so real target
+addresses are never clobbered. Before starting anything it checks that the
+config is a regular file, that no `VM1_IP`-style placeholders remain, and that
+both the Prometheus and Compose configs parse. After starting it waits for
+`/-/ready`, then reports every scrape target's health and fails if any is not
+`up` — `docker compose ps` showing `Up` is not evidence that scraping works.
+
+Safe to re-run: it also clears the root-owned directory the Docker daemon leaves
+behind at a missing bind-mount source.
+
+Grafana itself still needs two manual steps: add the Prometheus data source at
+`http://prometheus:9090` (the container name, not `localhost`), then import
+dashboard `1860`.
 
 ### Multipass — `shell` / `stop`
 
@@ -192,6 +213,7 @@ config_local.conf             # local config template (deployed once, never over
 install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus group / installer
+  install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring → install stack)
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)
