@@ -4,14 +4,9 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
-## [1.2.7] — 2026-08-25
+## [1.2.8] — 2026-08-25
 
 ### Added
-- New **Prometheus** group: `install`, `status`, `upgrade`, `metrics`, and
-  `remove` for Prometheus Node Exporter inside an existing Multipass VM (each
-  command lists the VMs and prompts for a name).
-- `prometheus-node-exporter` added to the **Unix Program Installer** checklist
-  for installing the exporter on the local machine.
 - **Monitoring (on host)** group with `install stack`, provisioning the host-side
   Prometheus + Grafana stack via `install_monitoring_stack.sh`, and `targets`
   for inspecting scrape health. The script derives every path from a single
@@ -21,6 +16,15 @@ All notable changes to this project are documented here. The format is based on
   start. It validates the config with `promtool` before starting and verifies
   every scrape target is up afterwards. The Grafana admin password is injected
   at run time rather than written into `docker-compose.yml`.
+
+## [1.2.7] — 2026-08-25
+
+### Added
+- New **Prometheus** group: `install`, `status`, `upgrade`, `metrics`, and
+  `remove` for Prometheus Node Exporter inside an existing Multipass VM (each
+  command lists the VMs and prompts for a name).
+- `prometheus-node-exporter` added to the **Unix Program Installer** checklist
+  for installing the exporter on the local machine.
 
 ### Changed
 - `install_node_exporter.sh` now installs the `prometheus-node-exporter` apt
