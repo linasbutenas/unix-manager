@@ -78,7 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
 | Prometheus | `install`, `status`, `upgrade`, `metrics`, `remove` |
-| Monitoring | `install stack`, `targets` |
+| Monitoring (on host) | `install stack`, `targets` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
@@ -114,7 +114,7 @@ shows `multipass list` first, then prompts for the VM name.
   inside the VM as a quick health check.
 - `remove` — asks for confirmation, then purges the package from the VM.
 
-### Monitoring — `install stack`
+### Monitoring (on host) — `install stack`
 
 Provisions the host-side Prometheus + Grafana stack in `~/monitoring/prometheus`
 (override with `STACK_DIR`). Prompts for the Grafana admin password, which is
@@ -213,7 +213,7 @@ config_local.conf             # local config template (deployed once, never over
 install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus group / installer
-  install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring → install stack)
+  install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring (on host) → install stack)
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)
