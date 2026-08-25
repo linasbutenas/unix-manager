@@ -20,7 +20,7 @@ All notable changes to this project are documented here. The format is based on
 ## [1.2.7] — 2026-08-25
 
 ### Added
-- New **Prometheus** group: `install`, `status`, `upgrade`, `metrics`, and
+- New **Prometheus (on VM)** group: `install`, `status`, `upgrade`, `metrics`, and
   `remove` for Prometheus Node Exporter inside an existing Multipass VM (each
   command lists the VMs and prompts for a name).
 - `prometheus-node-exporter` added to the **Unix Program Installer** checklist

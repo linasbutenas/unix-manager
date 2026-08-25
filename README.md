@@ -77,7 +77,7 @@ log   = git log --oneline -15
 | Docker | `ps`, `prune` |
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
-| Prometheus | `install`, `status`, `upgrade`, `metrics`, `remove` |
+| Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Monitoring (on host) | `install stack`, `targets` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
@@ -96,9 +96,9 @@ Prompts for name, CPUs (default 2), memory (default 4G), disk (default 8G), then
 
 ### Multipass — `new + prometheus`
 
-Same as `new`, plus transfers and runs `install_node_exporter.sh` inside the VM, which installs and enables Prometheus Node Exporter as a systemd service (see the Prometheus group below).
+Same as `new`, plus transfers and runs `install_node_exporter.sh` inside the VM, which installs and enables Prometheus Node Exporter as a systemd service (see the Prometheus (on VM) group below).
 
-### Prometheus
+### Prometheus (on VM)
 
 Manages Prometheus Node Exporter inside an existing Multipass VM. Every command
 shows `multipass list` first, then prompts for the VM name.
@@ -200,7 +200,7 @@ Bundled programs:
   Docker's apt repository).
 - `prometheus-node-exporter` — Prometheus Node Exporter on the local machine,
   installed via `scripts/install_node_exporter.sh` (same apt package as the
-  Prometheus group uses inside VMs).
+  Prometheus (on VM) group uses inside VMs).
 
 The apt-based programs require `sudo`.
 
@@ -212,7 +212,7 @@ unix-manager.conf             # global config (always deployed by install.sh)
 config_local.conf             # local config template (deployed once, never overwritten)
 install.sh                    # installer / updater
 scripts/
-  install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus group / installer
+  install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus (on VM) group / installer
   install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring (on host) → install stack)
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
