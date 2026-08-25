@@ -1,4 +1,4 @@
-# unix-manager v1.2.6
+# unix-manager v1.2.7
 
 A minimal bash TUI for organizing and running shell commands from a config file.
 
@@ -77,9 +77,10 @@ log   = git log --oneline -15
 | Docker | `ps`, `prune` |
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
+| Prometheus | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
-| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`) |
+| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
 
 ### Git — `ship`
 
@@ -94,7 +95,23 @@ Prompts for name, CPUs (default 2), memory (default 4G), disk (default 8G), then
 
 ### Multipass — `new + prometheus`
 
-Same as `new`, plus transfers and runs `install_node_exporter.sh` inside the VM, which installs and enables Prometheus Node Exporter as a systemd service.
+Same as `new`, plus transfers and runs `install_node_exporter.sh` inside the VM, which installs and enables Prometheus Node Exporter as a systemd service (see the Prometheus group below).
+
+### Prometheus
+
+Manages Prometheus Node Exporter inside an existing Multipass VM. Every command
+shows `multipass list` first, then prompts for the VM name.
+
+- `install` — transfers and runs `scripts/install_node_exporter.sh` in the VM.
+  It installs the `prometheus-node-exporter` apt package (Ubuntu universe),
+  which ships its own systemd unit and listens on port 9100. Because it comes
+  from apt, it is upgraded along with everything else whenever the VM runs
+  `sudo apt update && sudo apt upgrade` — no pinned version to maintain.
+- `status` — `systemctl status prometheus-node-exporter` in the VM.
+- `upgrade` — upgrades only the exporter package and restarts the service.
+- `metrics` — prints a few key metrics from `http://localhost:9100/metrics`
+  inside the VM as a quick health check.
+- `remove` — asks for confirmation, then purges the package from the VM.
 
 ### Multipass — `shell` / `stop`
 
@@ -160,6 +177,9 @@ Bundled programs:
   `curl -fsSL https://claude.ai/install.sh | bash` (no `sudo` required).
 - `docker` — Docker Engine, installed via `scripts/install_docker.sh` (adds
   Docker's apt repository).
+- `prometheus-node-exporter` — Prometheus Node Exporter on the local machine,
+  installed via `scripts/install_node_exporter.sh` (same apt package as the
+  Prometheus group uses inside VMs).
 
 The apt-based programs require `sudo`.
 
@@ -171,7 +191,7 @@ unix-manager.conf             # global config (always deployed by install.sh)
 config_local.conf             # local config template (deployed once, never overwritten)
 install.sh                    # installer / updater
 scripts/
-  install_node_exporter.sh    # installs Prometheus Node Exporter inside a Multipass VM
+  install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus group / installer
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)

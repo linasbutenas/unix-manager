@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.7] — 2026-08-25
+
+### Added
+- New **Prometheus** group: `install`, `status`, `upgrade`, `metrics`, and
+  `remove` for Prometheus Node Exporter inside an existing Multipass VM (each
+  command lists the VMs and prompts for a name).
+- `prometheus-node-exporter` added to the **Unix Program Installer** checklist
+  for installing the exporter on the local machine.
+
+### Changed
+- `install_node_exporter.sh` now installs the `prometheus-node-exporter` apt
+  package instead of a pinned 1.7.0 tarball and hand-written systemd unit, so
+  the exporter is upgraded by the regular `apt update && apt upgrade` cycle
+  (also used by Multipass → `new + prometheus`).
+
 ## [1.2.6] — 2026-08-18
 
 ### Changed

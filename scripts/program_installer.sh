@@ -62,6 +62,7 @@ declare -A DESC=(
     [glow]="Markdown reader"
     [claude]="Claude Code CLI"
     [docker]="Container engine"
+    [prometheus-node-exporter]="Prometheus Node Exporter (:9100)"
 )
 
 # ── Split into installed (locked) and installable ────────────────────────────────

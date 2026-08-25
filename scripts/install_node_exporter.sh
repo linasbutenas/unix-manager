@@ -1,25 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
-tar xvf node_exporter-1.7.0.linux-amd64.tar.gz
-sudo mv node_exporter-1.7.0.linux-amd64/node_exporter /usr/local/bin/
+# Installs Prometheus Node Exporter from the Ubuntu/Debian apt repository.
+#
+# The apt package (prometheus-node-exporter) ships its own systemd unit and is
+# upgraded together with everything else by `sudo apt update && sudo apt
+# upgrade`, so there is no pinned version to maintain. It listens on :9100.
 
-# Create a systemd service
-sudo tee /etc/systemd/system/node_exporter.service <<EOF
-[Unit]
-Description=Node Exporter
-After=network.target
+if command -v prometheus-node-exporter &>/dev/null; then
+    echo "prometheus-node-exporter is already installed:"
+    prometheus-node-exporter --version 2>&1 | head -n 1 || true
+else
+    sudo apt-get update
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y prometheus-node-exporter
+fi
 
-[Service]
-User=nobody
-ExecStart=/usr/local/bin/node_exporter
+sudo systemctl enable --now prometheus-node-exporter
+sudo systemctl --no-pager --lines=0 status prometheus-node-exporter || true
 
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# Enable and start
-sudo systemctl daemon-reload
-sudo systemctl enable node_exporter
-sudo systemctl start node_exporter
+echo ""
+echo "Node Exporter metrics: http://$(hostname -I 2>/dev/null | awk '{print $1}'):9100/metrics"
