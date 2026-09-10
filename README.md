@@ -78,7 +78,7 @@ log   = git log --oneline -15
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
 | Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
-| Monitoring (on host) | `install stack`, `targets` |
+| Monitoring (on host) | `status`, `install stack`, `targets` |
 | Unix Manager | `update` |
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
@@ -114,6 +114,37 @@ shows `multipass list` first, then prompts for the VM name.
 - `metrics` — prints a few key metrics from `http://localhost:9100/metrics`
   inside the VM as a quick health check.
 - `remove` — asks for confirmation, then purges the package from the VM.
+
+### Monitoring (on host) — `status`
+
+Reports what the host-side monitoring stack currently is, in four parts:
+prerequisites (Docker, the Compose plugin, and whether the host itself runs a
+node exporter), the stack (compose project, directory, config file, retention,
+and whether `VM_IP` placeholders remain), the containers and their published
+ports, and health.
+
+Read-only: it never writes, never uses `sudo`, and never starts or installs
+anything. Absent pieces are reported, not fixed.
+
+Discovery starts from Docker rather than from `STACK_DIR`, because the running
+containers are the only authority on where the live stack is — one provisioned
+by hand, or with `STACK_DIR` overridden, is invisible to a path-based check, and
+reporting "not installed" while it is plainly up would be worse than not
+reporting at all. For the same reason the config path is read from the
+container's bind mount and the ports from `docker port`, so an overridden
+mapping is shown rather than assumed. When the stack is not at `STACK_DIR`, the
+report says so, since `install stack` would provision a second one there.
+
+Health is three unauthenticated probes: Prometheus `/-/ready`, its
+`/api/v1/targets` summarised as `N of M up` with each failing exporter and its
+cause named, and Grafana's `/api/health`, which reports whether Grafana's
+database is reachable rather than merely that a port is open.
+
+Exits `0` whenever a report was produced, however unhealthy the stack; a
+non-zero exit means the report itself could not be made — Docker missing, or its
+daemon unreachable.
+
+Runs `scripts/monitoring_status.sh`.
 
 ### Monitoring (on host) — `install stack`
 
@@ -236,6 +267,7 @@ install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus (on VM) group / installer
   install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring (on host) → install stack)
+  monitoring_status.sh        # reports the host monitoring stack's state (Monitoring (on host) → status)
   add_host_ssh_key.sh         # adds your SSH public key to a Multipass VM (Multipass → ssh key)
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo

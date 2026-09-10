@@ -7,6 +7,15 @@ All notable changes to this project are documented here. The format is based on
 ## [Unreleased]
 
 ### Added
+- **Monitoring (on host) → `status`** — reports the host stack's prerequisites,
+  where it actually lives, its containers and ports, and its health: Prometheus
+  readiness, scrape targets as `N of M up` with each failing exporter named, and
+  whether Grafana's database is reachable. Read-only, and needs no credentials.
+  Discovery starts from Docker rather than `STACK_DIR`, because a stack
+  provisioned by hand or with `STACK_DIR` overridden is invisible to a
+  path-based check — reporting "not installed" while it is plainly running would
+  be worse than not reporting at all. Exits non-zero only when the report itself
+  cannot be made.
 - **Multipass → `ssh key`** — adds your SSH public key to a VM's
   `authorized_keys` and saves a host-side copy to `~/.mp_<name>/authorized_keys`
   for recovery. Runs automatically at the end of `new` and `new + prometheus`,
