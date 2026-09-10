@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.9] — 2026-09-10
+
+### Changed
+- Repository moved from Bitbucket to GitHub
+  (`github.com/linasbutenas/unix-manager`). The install one-liner in the README
+  and `REPO_URL` in `install.sh` now point at GitHub.
+- `install.sh` repoints an existing install's `origin` from Bitbucket to GitHub
+  automatically, so machines installed from the old remote keep updating. The
+  check runs before the re-exec, so it also applies when `install.sh` is run
+  from the canonical directory — which is how **Unix Manager → update** runs it.
+- **Unix Manager → update** now continues to `install.sh` even if `git pull`
+  fails, so an install still pointing at Bitbucket can reach the repoint above
+  instead of stopping at the failed pull.
+
 ## [1.2.8] — 2026-08-25
 
 ### Added
