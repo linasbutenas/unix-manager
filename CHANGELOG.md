@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Multipass → `ssh key`** — adds your SSH public key to a VM's
+  `authorized_keys` and saves a host-side copy to `~/.mp_<name>/authorized_keys`
+  for recovery. Runs automatically at the end of `new` and `new + prometheus`,
+  and can be applied to an existing VM from the menu. Keeps a VM reachable over
+  plain `ssh` if Multipass' own key is lost, which otherwise leaves no way in
+  short of editing the instance's qcow2 disk offline. Idempotent; a missing host
+  key warns instead of failing a launch.
+
 ## [1.2.9] — 2026-09-10
 
 ### Changed
