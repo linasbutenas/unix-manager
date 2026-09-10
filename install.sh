@@ -23,8 +23,18 @@ if [[ ${#MISSING[@]} -gt 0 ]]; then
     exit 1
 fi
 
-REPO_URL="https://bitbucket.org/linasbprojects/unix-manager"
+REPO_URL="https://github.com/linasbutenas/unix-manager"
 REPO_DIR="$HOME/.local/share/unix-manager"
+
+# ── Migrate installs still pointing at the old Bitbucket remote ───────────────
+if [[ -d "$REPO_DIR/.git" ]]; then
+    OLD_REMOTE=$(git -C "$REPO_DIR" remote get-url origin 2>/dev/null || echo "")
+    if [[ "$OLD_REMOTE" == *bitbucket.org* ]]; then
+        echo "Repointing origin to $REPO_URL (was $OLD_REMOTE)..."
+        git -C "$REPO_DIR" remote set-url origin "$REPO_URL"
+        git -C "$REPO_DIR" pull || echo "Warning: pull from $REPO_URL failed; continuing."
+    fi
+fi
 
 # Resolve script location — BASH_SOURCE[0] is unbound when piped from curl
 set +u

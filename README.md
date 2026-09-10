@@ -1,4 +1,4 @@
-# unix-manager v1.2.8
+# unix-manager v1.2.9
 
 A minimal bash TUI for organizing and running shell commands from a config file.
 
@@ -15,7 +15,7 @@ A minimal bash TUI for organizing and running shell commands from a config file.
 ## Installation
 
 ```bash
-curl -fsSL https://bitbucket.org/linasbprojects/unix-manager/raw/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/linasbutenas/unix-manager/master/install.sh | bash
 ```
 
 `install.sh` will:
