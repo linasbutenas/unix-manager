@@ -76,7 +76,7 @@ log   = git log --oneline -15
 |---|---|
 | Docker | `ps`, `prune` |
 | Git | `st`, `log`, `diff`, `push`, `ship` |
-| Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `stop all` |
+| Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
 | Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Monitoring (on host) | `install stack`, `targets` |
 | Unix Manager | `update` |
@@ -93,6 +93,7 @@ Prompts for name, CPUs (default 2), memory (default 4G), disk (default 8G), then
 1. Launches the VM
 2. Creates `~/.mp_<name>` on the host
 3. Mounts it inside the VM at `/home/ubuntu/host_drive`
+4. Adds your SSH public key to the VM (see `ssh key` below)
 
 ### Multipass — `new + prometheus`
 
@@ -133,6 +134,27 @@ behind at a missing bind-mount source.
 Grafana itself still needs two manual steps: add the Prometheus data source at
 `http://prometheus:9090` (the container name, not `localhost`), then import
 dashboard `1860`.
+
+### Multipass — `ssh key`
+
+Adds your SSH public key to a VM, so the VM stays reachable even if Multipass'
+own key is lost. Runs automatically as the last step of `new` and
+`new + prometheus`; pick it from the menu to apply it to an existing VM.
+
+Prefers `~/.ssh/id_ed25519.pub`, falling back to `~/.ssh/id_rsa.pub`. It:
+1. Appends the key to `/home/ubuntu/.ssh/authorized_keys` in the VM, skipping it
+   if already present, and applies `700`/`600` permissions
+2. Saves a copy of the VM's `authorized_keys` to `~/.mp_<name>/authorized_keys`
+   on the host, so a wiped file can be restored
+3. Prints the `ssh ubuntu@<ip>` command for direct access
+
+Without Multipass' key **and** a key of your own, a VM whose `authorized_keys`
+is deleted cannot be reached at all: the QEMU serial console is disabled and the
+QMP socket belongs to `multipassd`, so recovery means editing the instance's
+qcow2 disk offline. Requires the VM to be running.
+
+Runs `scripts/add_host_ssh_key.sh`. A missing host key is only a warning, never
+a failed launch.
 
 ### Multipass — `shell` / `stop`
 
@@ -214,6 +236,7 @@ install.sh                    # installer / updater
 scripts/
   install_node_exporter.sh    # installs Prometheus Node Exporter (apt package) — Prometheus (on VM) group / installer
   install_monitoring_stack.sh # provisions the host Prometheus + Grafana stack (Monitoring (on host) → install stack)
+  add_host_ssh_key.sh         # adds your SSH public key to a Multipass VM (Multipass → ssh key)
   create_user.sh              # creates a local Unix user (System → adduser)
   install_glow.sh             # installs glow via the Charm apt repo
   program_installer.sh        # checklist installer (Unix Program Installer → open)
