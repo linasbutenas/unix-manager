@@ -24,6 +24,17 @@ All notable changes to this project are documented here. The format is based on
   short of editing the instance's qcow2 disk offline. Idempotent; a missing host
   key warns instead of failing a launch.
 
+### Fixed
+- **Prometheus (on VM) → `install`** and **Multipass → `new + prometheus`** failed
+  with `[sftp] cannot open local file .../.config/unix-manager/scripts/
+  install_node_exporter.sh: Permission denied` when Multipass is installed as a
+  snap. Snaps may only read non-hidden files under `$HOME`, and the scripts live
+  under `~/.config`. Both commands now feed the script to `multipass transfer`
+  on stdin (`transfer -`), the workaround Multipass' maintainers recommend, so
+  the snap never opens the hidden path. Until now `new + prometheus` produced a
+  VM without a node exporter: the transfer failed after the launch and mount had
+  already succeeded.
+
 ## [1.2.9] — 2026-09-10
 
 ### Changed
