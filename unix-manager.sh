@@ -103,8 +103,11 @@ run_command() {
     printf  "│ \$ %-58s│\n" "$cmd"
     echo "└────────────────────────────────────────────────────────────┘"
     echo ""
-    eval "$cmd"
-    local exit_code=$?
+    # The script runs under set -e. A bare eval of a failing command would
+    # therefore quit the whole TUI before the exit code and the prompt below
+    # are shown; the || list keeps errexit out of the way and captures it.
+    local exit_code=0
+    eval "$cmd" || exit_code=$?
     echo ""
     echo "────────────────────────────────────────────────────────────"
     [[ $exit_code -eq 0 ]] && echo "Done (exit 0)" || echo "Exit code: $exit_code"
