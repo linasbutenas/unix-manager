@@ -19,7 +19,7 @@ All notable changes to this project are documented here. The format is based on
   every entry in it, hidden ones included, smallest to largest, then the folder
   total. Top level only, so a deep tree stays readable.
 
-## [1.2.10] — 2026-09-12
+## [1.2.10] — 2026-11-09
 
 ### Added
 - **Monitoring (on host) → `status`** — reports the host stack's prerequisites,
