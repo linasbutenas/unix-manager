@@ -86,7 +86,7 @@ log   = git log --oneline -15
 
 ### Git — `ship`
 
-Prompts for a commit message (max 7 words), then runs `git add . && git commit && git push` in one go.
+Prompts for a commit message (max 20 words), then runs `git add . && git commit && git push` in one go.
 
 ### Multipass — `new`
 
