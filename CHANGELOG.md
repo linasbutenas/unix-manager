@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- **System is now the first group in the menu.** It holds the commands reached
+  most often on a fresh machine, so it no longer sits below the Multipass and
+  monitoring groups. Menu order follows the order of the sections in
+  `config.conf`; `config_local.conf` groups still come first.
+- **System → `df` renamed to `df (root)`**, to distinguish whole-host free
+  space from the new per-folder `du (here)`. The command is unchanged (`df -h`).
+
+### Added
+- **System → `du (here)`** — sizes the folder `unix-manager` was launched from:
+  every entry in it, hidden ones included, smallest to largest, then the folder
+  total. Top level only, so a deep tree stays readable.
+
 ## [1.2.10] — 2026-09-12
 
 ### Added
