@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.2.10] — 2026-09-12
 
 ### Added
 - **Monitoring (on host) → `status`** — reports the host stack's prerequisites,
@@ -34,6 +34,13 @@ All notable changes to this project are documented here. The format is based on
   the snap never opens the hidden path. Until now `new + prometheus` produced a
   VM without a node exporter: the transfer failed after the launch and mount had
   already succeeded.
+- A menu command that exits non-zero no longer quits the TUI. `unix-manager.sh`
+  runs under `set -e`, so the `eval` in `run_command` ended the whole program on
+  the first failing command, before the "Exit code" line and the "Press Enter"
+  prompt could appear. The failure now shows its exit code and returns to the
+  menu, as the code always intended. Both bugs fixed today (a missing systemd
+  unit, a snap-blocked transfer) were only noticed because the shell prompt
+  appeared where the menu should have been.
 
 ## [1.2.9] — 2026-09-10
 
