@@ -1,4 +1,4 @@
-# unix-manager v1.2.9
+# unix-manager v1.3.0
 
 A minimal bash TUI for organizing and running shell commands from a config file.
 
@@ -74,14 +74,15 @@ log   = git log --oneline -15
 
 | Group | Commands |
 |---|---|
+| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `mem`, `top`, `ports` |
 | Docker | `ps`, `prune` |
 | Git | `st`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
 | Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Monitoring (on host) | `status`, `install stack`, `targets` |
-| Unix Manager | `update` |
-| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df`, `mem`, `top`, `ports` |
+| Claude | `sessions`, `resume` |
 | Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
+| Unix Manager | `update`, `readme` |
 
 ### Git — `ship`
 
@@ -207,6 +208,16 @@ Creates a local Unix user on the host. Prompts for:
 5. A password (set interactively)
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
+
+### System — `df (root)` and `du (here)`
+
+`df (root)` is `df -h` — free space per mounted filesystem, the whole host.
+
+`du (here)` sizes the folder you started `unix-manager` from (shown as
+`Folder:` in the output), listing each entry in it — hidden ones included —
+smallest to largest, then the folder's total. It never recurses past the top
+level, so a deep tree stays readable. To measure a different folder, `cd` there
+before launching the menu.
 
 ### System — `ufw`
 
