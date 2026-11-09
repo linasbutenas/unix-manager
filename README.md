@@ -76,7 +76,7 @@ log   = git log --oneline -15
 |---|---|
 | System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `mem`, `top`, `ports` |
 | Docker | `ps`, `prune` |
-| Git | `st`, `log`, `diff`, `push`, `ship` |
+| Git | `git status`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
 | Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Monitoring (on host) | `status`, `install stack`, `targets` |

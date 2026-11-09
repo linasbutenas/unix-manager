@@ -15,6 +15,8 @@ All notable changes to this project are documented here. The format is based on
   space from the new per-folder `du (here)`. The command is unchanged (`df -h`).
 - **Git → `ship`** now prompts for a commit message of "max 20 words". The
   prompt said 13 and the README said 7; neither was enforced, and both now agree.
+- **Git → `st` renamed to `git status`**, so the menu shows what it runs. The
+  command is unchanged.
 
 ### Added
 - **System → `du (here)`** — sizes the folder `unix-manager` was launched from:
