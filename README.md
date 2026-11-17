@@ -74,7 +74,7 @@ log   = git log --oneline -15
 
 | Group | Commands |
 |---|---|
-| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `load`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `ncdu (here)`, `load`, `mem`, `top`, `ports` |
 | Docker | `ps`, `prune` |
 | Git | `git status`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
@@ -209,7 +209,7 @@ Creates a local Unix user on the host. Prompts for:
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
 
-### System — `df (root)` and `du (here)`
+### System — `df (root)`, `du (here)` and `ncdu (here)`
 
 `df (root)` is `df -h` — free space per mounted filesystem, the whole host.
 
@@ -218,6 +218,11 @@ Requires `sudo`. Runs `scripts/create_user.sh`.
 smallest to largest, then the folder's total. It never recurses past the top
 level, so a deep tree stays readable. To measure a different folder, `cd` there
 before launching the menu.
+
+`ncdu (here)` opens `ncdu` on the same folder, to step into the big directories
+`du (here)` points at. Arrow keys move, Enter goes into a directory, `q` quits
+back to the menu. `ncdu` comes from the Unix Program Installer; if it is
+missing, the entry says so instead of failing with "command not found".
 
 ### System — `load`
 

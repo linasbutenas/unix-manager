@@ -19,6 +19,9 @@ All notable changes to this project are documented here. The format is based on
   command is unchanged.
 
 ### Added
+- **System → `ncdu (here)`** — opens `ncdu` on the folder `unix-manager` was
+  launched from, next to `du (here)`. If `ncdu` is not installed, it says to
+  install it from the Unix Program Installer.
 - **Unix Program Installer → `ncdu`** — interactive disk usage browser, for
   when `du (here)` shows a big directory and you want to step into it.
 - **System → `load`** — a one-screen snapshot of how busy the host is: the CPU
