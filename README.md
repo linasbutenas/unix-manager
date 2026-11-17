@@ -81,7 +81,7 @@ log   = git log --oneline -15
 | Prometheus (on VM) | `install`, `status`, `upgrade`, `metrics`, `remove` |
 | Monitoring (on host) | `status`, `install stack`, `targets` |
 | Claude | `sessions`, `resume` |
-| Unix Program Installer | `open` (checklist: `mc`, `htop`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
+| Unix Program Installer | `open` (checklist: `mc`, `htop`, `btop`, `glances`, `zip`, `unzip`, `glow`, `claude`, `docker`, `prometheus-node-exporter`) |
 | Unix Manager | `update`, `readme` |
 
 ### Git — `ship`
@@ -254,6 +254,10 @@ Bundled programs:
 
 - `mc` — Midnight Commander, from the standard Ubuntu repos.
 - `htop` — interactive process viewer, from the standard Ubuntu repos.
+- `btop` — resource monitor with CPU, memory, disk and network graphs, from
+  the standard Ubuntu repos (22.04 and later).
+- `glances` — one-screen system overview (CPU, memory, disk I/O, network,
+  sensors, containers), from the standard Ubuntu repos.
 - `zip` / `unzip` — archive tools, from the standard Ubuntu repos.
 - `glow` — Charm's markdown renderer. Not in the default Ubuntu repos, so
   `scripts/install_glow.sh` adds the Charm apt repository (GPG key + source

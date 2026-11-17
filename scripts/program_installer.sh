@@ -57,6 +57,8 @@ fi
 declare -A DESC=(
     [mc]="File manager"
     [htop]="Process viewer"
+    [btop]="Resource monitor"
+    [glances]="System overview"
     [zip]="Create zip archives"
     [unzip]="Extract zip archives"
     [glow]="Markdown reader"

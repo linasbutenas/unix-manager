@@ -19,6 +19,9 @@ All notable changes to this project are documented here. The format is based on
   command is unchanged.
 
 ### Added
+- **Unix Program Installer → `btop` and `glances`** — two live CPU and memory
+  monitors beside `htop`, both from the standard Ubuntu repos. `btop` needs
+  Ubuntu 22.04 or later; on 20.04 its install fails and is reported as such.
 - **System → `du (here)`** — sizes the folder `unix-manager` was launched from:
   every entry in it, hidden ones included, smallest to largest, then the folder
   total. Top level only, so a deep tree stays readable.
