@@ -19,6 +19,10 @@ All notable changes to this project are documented here. The format is based on
   command is unchanged.
 
 ### Added
+- **System → `load`** — a one-screen snapshot of how busy the host is: the CPU
+  core count, `top`'s summary (load averages, CPU split, memory and swap) and
+  the ten processes using the most CPU. It samples for one second and reads
+  `top`'s second frame, because the first reports CPU usage since boot.
 - **Unix Program Installer → `btop` and `glances`** — two live CPU and memory
   monitors beside `htop`, both from the standard Ubuntu repos. `btop` needs
   Ubuntu 22.04 or later; on 20.04 its install fails and is reported as such.
