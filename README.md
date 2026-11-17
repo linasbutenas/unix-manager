@@ -74,7 +74,7 @@ log   = git log --oneline -15
 
 | Group | Commands |
 |---|---|
-| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `ncdu (here)`, `load`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `ncdu (root)`, `load`, `mem`, `top`, `ports` |
 | Docker | `ps`, `prune` |
 | Git | `git status`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
@@ -209,7 +209,7 @@ Creates a local Unix user on the host. Prompts for:
 
 Requires `sudo`. Runs `scripts/create_user.sh`.
 
-### System — `df (root)`, `du (here)` and `ncdu (here)`
+### System — `df (root)`, `du (here)` and `ncdu (root)`
 
 `df (root)` is `df -h` — free space per mounted filesystem, the whole host.
 
@@ -219,10 +219,19 @@ smallest to largest, then the folder's total. It never recurses past the top
 level, so a deep tree stays readable. To measure a different folder, `cd` there
 before launching the menu.
 
-`ncdu (here)` opens `ncdu` on the same folder, to step into the big directories
-`du (here)` points at. Arrow keys move, Enter goes into a directory, `q` quits
-back to the menu. `ncdu` comes from the Unix Program Installer; if it is
-missing, the entry says so instead of failing with "command not found".
+`ncdu (root)` opens `ncdu` on `/`, wherever you launched the menu from, to find
+what is filling the root filesystem. Arrow keys move, Enter goes into a
+directory, `q` quits back to the menu. It runs as:
+
+- `sudo`, because much of `/` (`/root`, `/var/lib/docker`, parts of `/var/log`)
+  is unreadable to a normal user, and those folders would otherwise be skipped
+  and missing from the totals. It asks for your password.
+- `-x`, to stay on the root filesystem: other mounts, such as `/proc`, Multipass
+  shares and network drives, are not scanned.
+- `-r`, read-only, so `ncdu`'s delete key is turned off while it runs as root.
+
+`ncdu` comes from the Unix Program Installer; if it is missing, the entry says
+so instead of failing with "command not found".
 
 ### System — `load`
 
