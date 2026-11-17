@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- **System → `ncdu (here)` is now `ncdu (root)`** and always opens on `/`,
+  whichever folder the menu was launched from. It runs under `sudo`, so folders
+  only root can read are counted rather than skipped, stays on the root
+  filesystem (`-x`), and is read-only (`-r`), so nothing can be deleted from it
+  as root.
+
 ## [1.3.0] — 2026-11-17
 
 ### Changed
