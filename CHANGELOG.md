@@ -19,6 +19,8 @@ All notable changes to this project are documented here. The format is based on
   command is unchanged.
 
 ### Added
+- **Unix Program Installer → `ncdu`** — interactive disk usage browser, for
+  when `du (here)` shows a big directory and you want to step into it.
 - **System → `load`** — a one-screen snapshot of how busy the host is: the CPU
   core count, `top`'s summary (load averages, CPU split, memory and swap) and
   the ten processes using the most CPU. It samples for one second and reads

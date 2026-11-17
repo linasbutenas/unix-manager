@@ -61,6 +61,7 @@ declare -A DESC=(
     [glances]="System overview"
     [zip]="Create zip archives"
     [unzip]="Extract zip archives"
+    [ncdu]="Disk usage browser"
     [glow]="Markdown reader"
     [claude]="Claude Code CLI"
     [docker]="Container engine"
