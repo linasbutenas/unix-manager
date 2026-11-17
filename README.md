@@ -74,7 +74,7 @@ log   = git log --oneline -15
 
 | Group | Commands |
 |---|---|
-| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `mem`, `top`, `ports` |
+| System | `upgrade`, `adduser`, `listusers`, `ufw`, `df (root)`, `du (here)`, `load`, `mem`, `top`, `ports` |
 | Docker | `ps`, `prune` |
 | Git | `git status`, `log`, `diff`, `push`, `ship` |
 | Multipass | `list`, `info`, `shell`, `stop`, `new`, `new + prometheus`, `ssh key`, `stop all` |
@@ -218,6 +218,17 @@ Requires `sudo`. Runs `scripts/create_user.sh`.
 smallest to largest, then the folder's total. It never recurses past the top
 level, so a deep tree stays readable. To measure a different folder, `cd` there
 before launching the menu.
+
+### System — `load`
+
+A one-screen snapshot of how busy the host is: the CPU core count, then `top`'s
+summary (load averages, task counts, CPU split, memory and swap) and the ten
+processes using the most CPU. Load averages read against the core count: on a
+4-core host, a load of 4 means the CPUs are fully busy.
+
+It samples for one second before printing. `top`'s first frame reports CPU
+usage since boot rather than now, so the command takes the second frame. Unlike
+`top` (which opens `htop`), it prints once and returns to the menu.
 
 ### System — `ufw`
 
