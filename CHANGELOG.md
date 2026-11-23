@@ -13,6 +13,11 @@ All notable changes to this project are documented here. The format is based on
   filesystem (`-x`), and is read-only (`-r`), so nothing can be deleted from it
   as root.
 
+### Fixed
+- **Multipass → `info`** failed with "Unknown option 'all'". Multipass dropped
+  `--all` from `info` (rejected by 1.17.2), and `multipass info` with no
+  arguments now lists every instance, so the entry runs that instead.
+
 ## [1.3.0] — 2026-11-17
 
 ### Changed
